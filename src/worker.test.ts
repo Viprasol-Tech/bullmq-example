@@ -21,6 +21,25 @@ describe("processJob (worker dispatch, no Redis)", () => {
     expect(result).toEqual({ status: "resized", source: "a.jpg", pixels: 12 });
   });
 
+  it("routes webhook jobs to the webhook processor", () => {
+    const data: JobDataMap["webhook"] = {
+      url: "https://example.com/hook",
+      payload: { ping: true },
+    };
+    const result = processJob({ name: "webhook", data });
+    expect(result).toMatchObject({ status: "queued", url: "https://example.com/hook" });
+  });
+
+  it("routes report jobs to the report processor", () => {
+    const data: JobDataMap["report"] = {
+      reportId: "weekly",
+      from: "2025-01-01",
+      to: "2025-01-03",
+    };
+    const result = processJob({ name: "report", data });
+    expect(result).toEqual({ status: "generated", reportId: "weekly", days: 3 });
+  });
+
   it("throws on an unknown job name", () => {
     expect(() =>
       processJob({ name: "unknown", data: {} as never }),

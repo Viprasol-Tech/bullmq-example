@@ -1,7 +1,7 @@
 {
   "name": "bullmq-example",
-  "version": "0.1.0",
-  "description": "BullMQ job queue example (TypeScript) with typed jobs and processor logic.",
+  "version": "0.2.0",
+  "description": "Production-grade BullMQ job queue example (TypeScript): typed jobs, priorities, retry/backoff, scheduled & repeatable jobs, parent-child flows, and a Redis-free metrics collector.",
   "type": "module",
   "license": "MIT",
   "author": "Viprasol Tech Private Limited",
@@ -17,7 +17,13 @@
     "redis",
     "typescript",
     "nodejs",
-    "background-jobs"
+    "background-jobs",
+    "job-scheduler",
+    "cron",
+    "retry",
+    "backoff",
+    "flows",
+    "metrics"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

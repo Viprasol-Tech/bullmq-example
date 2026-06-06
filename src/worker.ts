@@ -10,7 +10,13 @@ import { Worker } from "bullmq";
 import type { ConnectionOptions, Job, Processor } from "bullmq";
 import { QUEUE_NAME } from "./jobs.js";
 import type { JobDataMap, JobName, JobResultMap } from "./jobs.js";
-import { processEmailJob, processResizeJob, InvalidJobDataError } from "./processors.js";
+import {
+  processEmailJob,
+  processResizeJob,
+  processWebhookJob,
+  processReportJob,
+  InvalidJobDataError,
+} from "./processors.js";
 import { DEFAULT_CONNECTION } from "./queue.js";
 
 type AnyJobData = JobDataMap[JobName];
@@ -26,6 +32,10 @@ export function processJob(job: Pick<Job<AnyJobData>, "name" | "data">): AnyJobR
       return processEmailJob(job.data as JobDataMap["email"]);
     case "resize":
       return processResizeJob(job.data as JobDataMap["resize"]);
+    case "webhook":
+      return processWebhookJob(job.data as JobDataMap["webhook"]);
+    case "report":
+      return processReportJob(job.data as JobDataMap["report"]);
     default:
       throw new InvalidJobDataError(`unknown job name: ${job.name}`);
   }

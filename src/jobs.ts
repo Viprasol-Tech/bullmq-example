@@ -25,10 +25,32 @@ export interface ResizeJobData {
   height: number;
 }
 
+/** Payload for an outbound webhook delivery job. */
+export interface WebhookJobData {
+  /** Destination URL (must be http/https). */
+  url: string;
+  /** JSON-serialisable payload to POST. */
+  payload: Record<string, unknown>;
+  /** Optional extra headers. */
+  headers?: Record<string, string>;
+}
+
+/** Payload for a periodic report-generation job. */
+export interface ReportJobData {
+  /** Report identifier, e.g. "daily-signups". */
+  reportId: string;
+  /** Inclusive ISO date range start (YYYY-MM-DD). */
+  from: string;
+  /** Inclusive ISO date range end (YYYY-MM-DD). */
+  to: string;
+}
+
 /** Discriminated map of job name -> payload type. */
 export interface JobDataMap {
   email: EmailJobData;
   resize: ResizeJobData;
+  webhook: WebhookJobData;
+  report: ReportJobData;
 }
 
 /** All valid job names. */
@@ -54,8 +76,28 @@ export interface ResizeJobResult {
   pixels: number;
 }
 
+/** Result returned by the webhook processor. */
+export interface WebhookJobResult {
+  status: "queued";
+  url: string;
+  /** Number of bytes in the serialised request body. */
+  bytes: number;
+  /** Count of headers that will be sent (incl. content-type). */
+  headerCount: number;
+}
+
+/** Result returned by the report processor. */
+export interface ReportJobResult {
+  status: "generated";
+  reportId: string;
+  /** Number of whole days covered by the [from, to] range (inclusive). */
+  days: number;
+}
+
 /** Map of job name -> result type. */
 export interface JobResultMap {
   email: EmailJobResult;
   resize: ResizeJobResult;
+  webhook: WebhookJobResult;
+  report: ReportJobResult;
 }
