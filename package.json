@@ -1,0 +1,40 @@
+{
+  "name": "bullmq-example",
+  "version": "0.1.0",
+  "description": "BullMQ job queue example (TypeScript) with typed jobs and processor logic.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Viprasol Tech Private Limited",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Viprasol-Tech/bullmq-example.git"
+  },
+  "homepage": "https://viprasol.com",
+  "keywords": [
+    "bullmq",
+    "queue",
+    "jobs",
+    "redis",
+    "typescript",
+    "nodejs",
+    "background-jobs"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "bullmq": "^5.34.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}
